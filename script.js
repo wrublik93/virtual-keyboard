@@ -7,7 +7,7 @@ const keyboardKeys = {
     'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete',
     'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter',
     'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight',
-    'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowDown', 'ArrowRight', 'ControlRight'],
+    'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'],
   ru: {
     nameKeys: ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '&#8592;',
       'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del',
@@ -48,28 +48,34 @@ const keyboardKeys = {
   },
 };
 
-/* wind.onkeypress = function (event) {
-  console.log(event);
-}; */
-
-const b = [];
-
-document.addEventListener('keydown', (event) => {
-  /*  console.log(event.code); */
-  b.push(event.code);
-  console.log(b);
-});
-
-function init() {
+function initKeyboard(code, nameKeys, capsKeys, shiftKeys) {
   let out = '';
-  const a = keyboardKeys.ru.shiftKeys;
-  a.forEach((item, index) => {
-    out += `<div class="k-key" data="${item}">${item}</div>`;
+  code.forEach((item, index) => {
+    out += `<div class="k-key" data="${item}">${nameKeys[index]}</div>`;
   });
-  /*  for (let i = 0; i < a.length; i++) {
-    out += `<div class="k-key" data="${a[i]}">${a[i]}</div>`;
-  } */
   document.querySelector('.virtual-keyboard').innerHTML = out;
+};
+
+if(!localStorage.getItem('lang') || localStorage.getItem('lang') == 'ru') {
+  let code = keyboardKeys.codeKeys;
+  let nameKeys = keyboardKeys.ru.nameKeys;
+  let capsKeys = keyboardKeys.ru.capsKeys;
+  let shiftKeys = keyboardKeys.ru.shiftKeys;
+  initKeyboard(code, nameKeys, capsKeys, shiftKeys);
+} else if(localStorage.getItem('lang') == 'en') {
+  let code = keyboardKeys.codeKeys;
+  let nameKeys = keyboardKeys.en.nameKeys;
+  let capsKeys = keyboardKeys.en.capsKeys;
+  let shiftKeys = keyboardKeys.en.shiftKeys;
+  initKeyboard(code, nameKeys, capsKeys, shiftKeys);
 }
 
-init();
+document.addEventListener('keydown', function(event) {
+  document.querySelector('.virtual-keyboard .k-key[data="'+event.code+'"]').classList.add('active');
+  document.querySelector('.virtual-keyboard .k-key[data="'+event.code+'"]').classList.add('transform');
+});
+
+document.addEventListener('keyup', function(event){
+  document.querySelector('.virtual-keyboard .k-key[data="'+event.code+'"]').classList.remove('active');
+  document.querySelector('.virtual-keyboard .k-key[data="'+event.code+'"]').classList.remove('transform');
+});
