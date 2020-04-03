@@ -23,6 +23,10 @@
     -3px 2px rgb(0,0,0), -3px 3px rgb(0,0,0);
 }
 
+.transform {
+    transform: translate(-3px, 3px);
+}
+
 .k-key:nth-child(14) {
     grid-column-start: 14;
     grid-column-end: 16;
