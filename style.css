@@ -1,0 +1,72 @@
+.virtual-keyboard {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+   /*  border: 2px solid black; */
+    grid-gap: 13px;
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.k-key {
+    display: block;
+    border: 1px solid black;
+   /*  width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    margin-bottom: 10px; */
+    text-align: center;
+    padding: 8px;
+    border-radius: 5px;
+    box-shadow:
+    -1px 0px rgb(0,0,0), -1px 1px rgb(0,0,0),
+    -2px 1px rgb(0,0,0), -2px 2px rgb(0,0,0),
+    -3px 2px rgb(0,0,0), -3px 3px rgb(0,0,0);
+}
+
+.k-key:nth-child(14) {
+    grid-column-start: 14;
+    grid-column-end: 16;
+}
+
+.k-key:nth-child(42) {
+    grid-column-start: 14;
+    grid-column-end: 16;
+}
+
+.k-key:nth-child(30) {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.k-key:nth-child(43) {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.k-key:nth-child(53) {
+    grid-column-start: 12;
+    grid-column-end: 13;
+}
+
+.k-key:nth-child(54) {
+    grid-column-start: 13;
+    grid-column-end: 14;
+}
+
+.k-key:nth-child(55) {
+    grid-column-start: 14;
+    grid-column-end: 16;
+}
+
+.k-key:nth-child(59) {
+    grid-column-start: 4;
+    grid-column-end: 11;
+}
+
+.active {
+    background-color: coral;
+}
+
+.active-caps {
+    border: 1px solid red;
+}
