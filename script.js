@@ -48,34 +48,47 @@ const keyboardKeys = {
   },
 };
 
-function initKeyboard(code, nameKeys, capsKeys, shiftKeys) {
+const { codeKeys } = keyboardKeys;
+const nameKeysRu = keyboardKeys.ru.nameKeys;
+const capsKeysRu = keyboardKeys.ru.capsKeys;
+/* const shiftKeysRu = keyboardKeys.ru.shiftKeys; */
+const nameKeysEn = keyboardKeys.en.nameKeys;
+/* const capsKeysEn = keyboardKeys.en.capsKeys;
+const shiftKeysEn = keyboardKeys.en.shiftKeys; */
+
+function initKeyboard(code, nameKeys) {
   let out = '';
   code.forEach((item, index) => {
     out += `<div class="k-key" data="${item}">${nameKeys[index]}</div>`;
   });
   document.querySelector('.virtual-keyboard').innerHTML = out;
-};
-
-if(!localStorage.getItem('lang') || localStorage.getItem('lang') == 'ru') {
-  let code = keyboardKeys.codeKeys;
-  let nameKeys = keyboardKeys.ru.nameKeys;
-  let capsKeys = keyboardKeys.ru.capsKeys;
-  let shiftKeys = keyboardKeys.ru.shiftKeys;
-  initKeyboard(code, nameKeys, capsKeys, shiftKeys);
-} else if(localStorage.getItem('lang') == 'en') {
-  let code = keyboardKeys.codeKeys;
-  let nameKeys = keyboardKeys.en.nameKeys;
-  let capsKeys = keyboardKeys.en.capsKeys;
-  let shiftKeys = keyboardKeys.en.shiftKeys;
-  initKeyboard(code, nameKeys, capsKeys, shiftKeys);
 }
 
-document.addEventListener('keydown', function(event) {
-  document.querySelector('.virtual-keyboard .k-key[data="'+event.code+'"]').classList.add('active');
-  document.querySelector('.virtual-keyboard .k-key[data="'+event.code+'"]').classList.add('transform');
+if (!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
+  initKeyboard(codeKeys, nameKeysRu);
+} else if (localStorage.getItem('lang') === 'en') {
+  initKeyboard(codeKeys, nameKeysEn);
+}
+
+document.addEventListener('keydown', (event) => {
+  console.log(event)
+  if(codeKeys.includes(event.code)) {
+    document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
+    document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform');
+    if(event.code === 'CapsLock') {
+      initKeyboard(codeKeys, capsKeysRu);
+      document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
+      document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform');
+      if(!document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.value.includes('press-key')) {
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('press-key'); 
+      }
+    }
+  }
 });
 
-document.addEventListener('keyup', function(event){
-  document.querySelector('.virtual-keyboard .k-key[data="'+event.code+'"]').classList.remove('active');
-  document.querySelector('.virtual-keyboard .k-key[data="'+event.code+'"]').classList.remove('transform');
+document.addEventListener('keyup', (event) => {
+  if(codeKeys.includes(event.code)) {
+    document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.remove('active');
+    document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.remove('transform');
+  }
 });
