@@ -23,6 +23,11 @@
     -3px 2px rgb(0,0,0), -3px 3px rgb(0,0,0);
 }
 
+.k-key:hover {
+    background-color: coral;
+    cursor: pointer;
+}
+
 .transform {
     transform: translate(-3px, 3px);
 }
@@ -73,4 +78,11 @@
 
 .active-caps {
     border: 1px solid red;
+}
+
+.press-key {
+    box-shadow:
+    -1px 0px rgb(143,188,143), -1px 1px rgb(143,188,143),
+    -2px 1px rgb(143,188,143), -2px 2px rgb(143,188,143),
+    -3px 2px rgb(143,188,143), -3px 3px rgb(143,188,143);
 }
