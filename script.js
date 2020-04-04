@@ -51,10 +51,10 @@ const keyboardKeys = {
 const { codeKeys } = keyboardKeys;
 const nameKeysRu = keyboardKeys.ru.nameKeys;
 const capsKeysRu = keyboardKeys.ru.capsKeys;
-/* const shiftKeysRu = keyboardKeys.ru.shiftKeys; */
+const shiftKeysRu = keyboardKeys.ru.shiftKeys;
 const nameKeysEn = keyboardKeys.en.nameKeys;
 const capsKeysEn = keyboardKeys.en.capsKeys;
-/*const shiftKeysEn = keyboardKeys.en.shiftKeys;*/
+const shiftKeysEn = keyboardKeys.en.shiftKeys;
 
 function initKeyboard(code, nameKeys) {
   let out = '';
@@ -106,12 +106,27 @@ document.addEventListener('keydown', (event) => {
       document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('active');
       document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('transform');
       document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.remove('press-key'); 
+    } else if(event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+      if(!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
+        initKeyboard(codeKeys, shiftKeysRu);
+      } else if(localStorage.getItem('lang') === 'en') {
+        initKeyboard(codeKeys, shiftKeysEn);
+      }
+      document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
+      document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform');
     }
   } 
 });
 
 document.addEventListener('keyup', (event) => {
   if(codeKeys.includes(event.code)) {
+    if(event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+      if(!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
+        initKeyboard(codeKeys, nameKeysRu);
+      } else if(localStorage.getItem('lang') === 'en') {
+        initKeyboard(codeKeys, nameKeysEn);
+      }
+    }
     document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.remove('active');
     document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.remove('transform');
   }
