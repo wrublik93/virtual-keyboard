@@ -92,6 +92,8 @@ if(!localStorage.getItem('caps')) {
   localStorage.setItem('caps', 'false');
 };
 
+localStorage.setItem('ctrl', 'false');
+
 if(localStorage.getItem('lang') === 'ru') {
   if(localStorage.getItem('caps') === 'false') {
     initKeyboard(codeKeys, nameKeysRu);
@@ -154,6 +156,49 @@ document.addEventListener('keydown', (event) => {
       }
       document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
       document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform');
+    } else if(event.code === 'ControlLeft') {
+      localStorage.setItem('ctrl', 'true')
+    } else if (event.code === 'AltRight') {
+      event.returnValue = false;
+      console.log(event)
+    } else if(event.code === 'AltLeft' && localStorage.getItem('ctrl') === 'true' && localStorage.getItem('lang') === 'ru') {
+      localStorage.setItem('lang', 'en');
+      if(localStorage.getItem('caps') === 'true') {
+        initKeyboard(codeKeys, capsKeysEn);
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform'); 
+        document.querySelector(`.virtual-keyboard .k-key[data="ControlLeft"]`).classList.add('active');
+        document.querySelector(`.virtual-keyboard .k-key[data="ControlLeft"]`).classList.add('transform');
+        localStorage.setItem('ctrl', 'false'); 
+      };
+      if(localStorage.getItem('caps') === 'false') {
+        initKeyboard(codeKeys, nameKeysEn);
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform'); 
+        document.querySelector(`.virtual-keyboard .k-key[data="ControlLeft"]`).classList.add('active');
+        document.querySelector(`.virtual-keyboard .k-key[data="ControlLeft"]`).classList.add('transform');
+        localStorage.setItem('ctrl', 'false');
+      };
+    } else if(event.code === 'AltLeft' && localStorage.getItem('ctrl') === 'true' && localStorage.getItem('lang') === 'en') {
+      localStorage.setItem('lang', 'ru');
+      if(localStorage.getItem('caps') === 'true') {
+        initKeyboard(codeKeys, capsKeysRu);
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform'); 
+        document.querySelector(`.virtual-keyboard .k-key[data="ControlLeft"]`).classList.add('active');
+        document.querySelector(`.virtual-keyboard .k-key[data="ControlLeft"]`).classList.add('transform');
+        localStorage.setItem('ctrl', 'false'); 
+      };
+      if(localStorage.getItem('caps') === 'false') {
+        initKeyboard(codeKeys, nameKeysRu);
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
+        document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform'); 
+        document.querySelector(`.virtual-keyboard .k-key[data="ControlLeft"]`).classList.add('active');
+        document.querySelector(`.virtual-keyboard .k-key[data="ControlLeft"]`).classList.add('transform');
+        localStorage.setItem('ctrl', 'false'); l 
+      };
     }
     document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value + document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).innerHTML;
   }
@@ -177,7 +222,7 @@ document.addEventListener('keyup', (event) => {
           document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
         }
       }
-    }
+    };
     document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.remove('active');
     document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.remove('transform');
   }
