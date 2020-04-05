@@ -1,5 +1,10 @@
 const keyboardContainer = document.createElement('div');
+const keyboardTextarea = document.createElement('textarea');
 keyboardContainer.className = 'virtual-keyboard';
+keyboardTextarea.className = 'keyboard-textarea';
+keyboardTextarea.rows = 10;
+keyboardTextarea.cols = 40;
+document.body.append(keyboardTextarea);
 document.body.append(keyboardContainer);
 
 const keyboardKeys = {
@@ -139,10 +144,10 @@ document.addEventListener('keydown', (event) => {
           document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
         }
       }
-      
       document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
       document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform');
     }
+    document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value + document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).innerHTML;
   }
 });
 
@@ -169,3 +174,7 @@ document.addEventListener('keyup', (event) => {
     document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.remove('transform');
   }
 });
+
+/* keyboardTextarea.addEventListener('input', () => {
+
+}); */
