@@ -86,21 +86,31 @@ function initKeyboard(code, nameKeys) {
   document.querySelector('.virtual-keyboard').innerHTML = out;
 }
 
-if (!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
-  if (!localStorage.getItem('caps') || localStorage.getItem('caps') === 'false') {
+if(!localStorage.getItem('lang')) {
+  localStorage.setItem('lang', 'ru');
+};
+
+if(!localStorage.getItem('caps')) {
+  localStorage.setItem('caps', 'false');
+};
+
+if(localStorage.getItem('lang') === 'ru') {
+  if(localStorage.getItem('caps') === 'false') {
     initKeyboard(codeKeys, nameKeysRu);
-  } else if (localStorage.getItem('caps') === 'true') {
+  } else if(localStorage.getItem('caps') === 'true') {
     initKeyboard(codeKeys, capsKeysRu);
     document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
   }
-} else if (localStorage.getItem('lang') === 'en') {
-  if (!localStorage.getItem('caps') || localStorage.getItem('caps') === 'false') {
+};
+
+if(localStorage.getItem('lang') === 'en') {
+  if(localStorage.getItem('caps') === 'false') {
     initKeyboard(codeKeys, nameKeysEn);
-  } else if (localStorage.getItem('caps') === 'true') {
+  } else if(localStorage.getItem('caps') === 'true') {
     initKeyboard(codeKeys, capsKeysEn);
     document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
   }
-}
+};
 
 document.addEventListener('keydown', (event) => {
   if (codeKeys.includes(event.code)) {
