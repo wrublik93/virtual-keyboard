@@ -65,65 +65,65 @@ function initKeyboard(code, nameKeys) {
 }
 
 if (!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
-  if(!localStorage.getItem('caps') || localStorage.getItem('caps') === 'false'){
+  if (!localStorage.getItem('caps') || localStorage.getItem('caps') === 'false') {
     initKeyboard(codeKeys, nameKeysRu);
-  } else if(localStorage.getItem('caps') === 'true'){
+  } else if (localStorage.getItem('caps') === 'true') {
     initKeyboard(codeKeys, capsKeysRu);
-    document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('press-key');
+    document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
   }
 } else if (localStorage.getItem('lang') === 'en') {
-  if(!localStorage.getItem('caps') || localStorage.getItem('caps') === 'false') {
+  if (!localStorage.getItem('caps') || localStorage.getItem('caps') === 'false') {
     initKeyboard(codeKeys, nameKeysEn);
-  } else if(localStorage.getItem('caps') === 'true') {
+  } else if (localStorage.getItem('caps') === 'true') {
     initKeyboard(codeKeys, capsKeysEn);
-    document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('press-key');
+    document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
   }
 }
 
 document.addEventListener('keydown', (event) => {
-  if(codeKeys.includes(event.code)) {
+  if (codeKeys.includes(event.code)) {
     document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
     document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform');
-    if(event.code === 'CapsLock' && !document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.value.includes('press-key')) {
-      if(!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
+    if (event.code === 'CapsLock' && !document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.value.includes('press-key')) {
+      if (!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
         initKeyboard(codeKeys, capsKeysRu);
-      } else if(localStorage.getItem('lang') === 'en') {
+      } else if (localStorage.getItem('lang') === 'en') {
         initKeyboard(codeKeys, capsKeysEn);
       }
       localStorage.setItem('caps', 'true');
-      document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('active');
-      document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('transform');
-      if(!document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.value.includes('press-key')) {
-        document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('press-key'); 
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('active');
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('transform');
+      if (!document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.value.includes('press-key')) {
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
       }
-    } else if((event.code === 'CapsLock' && document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.value.includes('press-key'))) {
-      if(!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
+    } else if ((event.code === 'CapsLock' && document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.value.includes('press-key'))) {
+      if (!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
         initKeyboard(codeKeys, nameKeysRu);
-      } else if(localStorage.getItem('lang') === 'en') {
+      } else if (localStorage.getItem('lang') === 'en') {
         initKeyboard(codeKeys, nameKeysEn);
       }
       localStorage.setItem('caps', 'false');
-      document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('active');
-      document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.add('transform');
-      document.querySelector(`.virtual-keyboard .k-key[data="CapsLock"]`).classList.remove('press-key'); 
-    } else if(event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
-      if(!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('active');
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('transform');
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.remove('press-key');
+    } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+      if (!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
         initKeyboard(codeKeys, shiftKeysRu);
-      } else if(localStorage.getItem('lang') === 'en') {
+      } else if (localStorage.getItem('lang') === 'en') {
         initKeyboard(codeKeys, shiftKeysEn);
       }
       document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
       document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform');
     }
-  } 
+  }
 });
 
 document.addEventListener('keyup', (event) => {
-  if(codeKeys.includes(event.code)) {
-    if(event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
-      if(!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
+  if (codeKeys.includes(event.code)) {
+    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+      if (!localStorage.getItem('lang') || localStorage.getItem('lang') === 'ru') {
         initKeyboard(codeKeys, nameKeysRu);
-      } else if(localStorage.getItem('lang') === 'en') {
+      } else if (localStorage.getItem('lang') === 'en') {
         initKeyboard(codeKeys, nameKeysEn);
       }
     }
