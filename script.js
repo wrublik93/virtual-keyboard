@@ -218,6 +218,7 @@ document.addEventListener('keydown', (event) => {
         document.querySelector('.keyboard-textarea').value += '';
         break;
       case '←':
+      case 'Del':
         document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value.slice(0, -1);
         break;
       case 'Enter': 
