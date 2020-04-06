@@ -258,3 +258,39 @@ document.addEventListener('keyup', (event) => {
     document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.remove('transform');
   }
 });
+
+
+/* document.querySelector('.virtual-keyboard').addEventListener('click', (event) => {
+  console.log(event);
+  event.target.classList.remove('transform'); 
+  if(event.target.classList.contains('k-key')) {
+    event.target.classList.add('transform');
+  }
+}); */
+
+/* let virtualKeyboard = document.querySelector('.virtual-keyboard');
+let keysCollection = virtualKeyboard.querySelectorAll('.k-key');
+document.addEventListener('click', (event) => {
+  let target = event.target;
+  console.log(keysCollection)
+  keysCollection.forEach(elem => elem.classList.remove('transform'))
+  if(target.classList.contains('k-key')) {
+    console.log(target);
+    target.classList.add('transform')
+  }
+}) */
+
+let virtualKeyboard = document.querySelector('.virtual-keyboard');
+virtualKeyboard.addEventListener('mousedown', (event) => {
+  let target = event.target;
+  if(target.classList.contains('k-key')) {
+    target.classList.add('transform');
+  }
+});
+
+virtualKeyboard.addEventListener('mouseup', (event) => {
+  let target = event.target;
+  if(target.classList.contains('k-key')) {
+    target.classList.remove('transform');
+  }
+})
