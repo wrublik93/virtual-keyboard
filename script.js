@@ -4,8 +4,11 @@ keyboardContainer.className = 'virtual-keyboard';
 keyboardTextarea.className = 'keyboard-textarea';
 keyboardTextarea.rows = 10;
 keyboardTextarea.cols = 40;
+keyboardTextarea.disabled = true;
+keyboardTextarea.style.resize = 'none';
 document.body.append(keyboardTextarea);
 document.body.append(keyboardContainer);
+/* document.querySelector('.keyboard-textarea').value = '|' */
 
 const keyboardKeys = {
   codeKeys: ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace',
@@ -202,8 +205,30 @@ document.addEventListener('keydown', (event) => {
           localStorage.setItem('ctrl', 'false'); 
         };
       }
+    } else if(event.code === 'Tab') {
+      event.preventDefault();
     }
-    document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value + document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).innerHTML;
+    switch(document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).textContent) {
+      case 'CapsLock':
+      case 'Alt':
+      case 'Ctrl':
+      case '⇧ Shift':
+      case 'Shift ⇧': 
+      case 'Win': 
+        document.querySelector('.keyboard-textarea').value += '';
+        break;
+      case '←':
+        document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value.slice(0, -1);
+        break;
+      case 'Enter': 
+        document.querySelector('.keyboard-textarea').value += '\n';
+        break;
+      case 'Tab': 
+        document.querySelector('.keyboard-textarea').value += '\t';
+        break;
+      default:
+        document.querySelector('.keyboard-textarea').value += document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).textContent;
+    }
   }
 });
 
