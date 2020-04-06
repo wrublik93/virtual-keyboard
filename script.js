@@ -1,14 +1,29 @@
-const keyboardContainer = document.createElement('div');
+const body = document.body;
+const main = document.createElement('main');
+const header = document.createElement('header');
+const section = document.createElement('section');
+const wrapperHeader = document.createElement('div');
+const wrapperSection = document.createElement('div');
+const title = document.createElement('h1');
 const keyboardTextarea = document.createElement('textarea');
-keyboardContainer.className = 'virtual-keyboard';
+const keyboardContainer = document.createElement('div');
+header.className = 'header';
+section.className = 'keyboard-section';
+wrapperHeader.className = 'wrapper';
+wrapperSection.className = 'wrapper';
+title.className = 'title';
 keyboardTextarea.className = 'keyboard-textarea';
-keyboardTextarea.rows = 10;
-keyboardTextarea.cols = 40;
+keyboardContainer.className = 'virtual-keyboard';
+body.append(header);
+header.append(wrapperHeader);
+wrapperHeader.append(title);
+body.append(main);
+main.append(section);
+section.append(wrapperSection);
+wrapperSection.append(keyboardTextarea);
+wrapperSection.append(keyboardContainer);
+title.innerText = 'Virtual Keyboard';
 keyboardTextarea.disabled = true;
-keyboardTextarea.style.resize = 'none';
-document.body.append(keyboardTextarea);
-document.body.append(keyboardContainer);
-/* document.querySelector('.keyboard-textarea').value = '|' */
 
 const keyboardKeys = {
   codeKeys: ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace',
@@ -259,38 +274,42 @@ document.addEventListener('keyup', (event) => {
   }
 });
 
-
-/* document.querySelector('.virtual-keyboard').addEventListener('click', (event) => {
-  console.log(event);
-  event.target.classList.remove('transform'); 
-  if(event.target.classList.contains('k-key')) {
-    event.target.classList.add('transform');
-  }
-}); */
-
-/* let virtualKeyboard = document.querySelector('.virtual-keyboard');
-let keysCollection = virtualKeyboard.querySelectorAll('.k-key');
-document.addEventListener('click', (event) => {
-  let target = event.target;
-  console.log(keysCollection)
-  keysCollection.forEach(elem => elem.classList.remove('transform'))
-  if(target.classList.contains('k-key')) {
-    console.log(target);
-    target.classList.add('transform')
-  }
-}) */
-
 let virtualKeyboard = document.querySelector('.virtual-keyboard');
 virtualKeyboard.addEventListener('mousedown', (event) => {
   let target = event.target;
   if(target.classList.contains('k-key')) {
-    target.classList.add('transform');
+    target.classList.add('transform-click');
+    switch(event.target.innerText) {
+      case 'CapsLock':
+      case 'Alt':
+      case 'Ctrl':
+      case '⇧ Shift':
+      case 'Shift ⇧': 
+      case 'Win': 
+        document.querySelector('.keyboard-textarea').value += '';
+        break;
+      case '←':
+      case 'Del':
+        document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value.slice(0, -1);
+        break;
+      case 'Enter': 
+        document.querySelector('.keyboard-textarea').value += '\n';
+        break;
+      case 'Tab': 
+        document.querySelector('.keyboard-textarea').value += '\t';
+        break;
+      case '': 
+        document.querySelector('.keyboard-textarea').value += ' ';
+        break;
+      default:
+        document.querySelector('.keyboard-textarea').value += event.target.innerText;
+    }
   }
 });
 
 virtualKeyboard.addEventListener('mouseup', (event) => {
   let target = event.target;
   if(target.classList.contains('k-key')) {
-    target.classList.remove('transform');
+    target.classList.remove('transform-click');
   }
 })
