@@ -114,6 +114,36 @@ function initKeyboard(code, nameKeys) {
   document.querySelector('.virtual-keyboard').innerHTML = out;
 }
 
+function textareaText(text) {
+  switch (text) {
+    case 'CapsLock':
+    case 'Alt':
+    case 'Ctrl':
+    case '⇧ Shift':
+    case 'Shift ⇧':
+    case 'Win':
+      keyboardTextarea.value += '';
+      break;
+    case '←':
+      keyboardTextarea.value = keyboardTextarea.value.slice(0, -1);
+      break;
+    case 'Del':
+      keyboardTextarea.value = '';
+      break;
+    case 'Enter':
+      keyboardTextarea.value += '\n';
+      break;
+    case 'Tab':
+      keyboardTextarea.value += '\t';
+      break;
+    case '':
+      keyboardTextarea.value += ' ';
+      break;
+    default:
+      keyboardTextarea.value += text;
+  }
+}
+
 if (!localStorage.getItem('lang')) {
   localStorage.setItem('lang', 'ru');
 }
@@ -235,30 +265,7 @@ document.addEventListener('keydown', (event) => {
     } else if (event.code === 'Tab') {
       event.preventDefault();
     }
-    switch (document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).textContent) {
-      case 'CapsLock':
-      case 'Alt':
-      case 'Ctrl':
-      case '⇧ Shift':
-      case 'Shift ⇧':
-      case 'Win':
-        document.querySelector('.keyboard-textarea').value += '';
-        break;
-      case '←':
-        document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value.slice(0, -1);
-        break;
-      case 'Del':
-        document.querySelector('.keyboard-textarea').value = '';
-        break;
-      case 'Enter':
-        document.querySelector('.keyboard-textarea').value += '\n';
-        break;
-      case 'Tab':
-        document.querySelector('.keyboard-textarea').value += '\t';
-        break;
-      default:
-        document.querySelector('.keyboard-textarea').value += document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).textContent;
-    }
+    textareaText(document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).textContent);
   }
 });
 
@@ -293,33 +300,7 @@ virtualKeyboard.addEventListener('mousedown', (event) => {
   const { target } = event;
   if (target.classList.contains('k-key')) {
     target.classList.add('transform-click');
-    switch (event.target.innerText) {
-      case 'CapsLock':
-      case 'Alt':
-      case 'Ctrl':
-      case '⇧ Shift':
-      case 'Shift ⇧':
-      case 'Win':
-        document.querySelector('.keyboard-textarea').value += '';
-        break;
-      case '←':
-        document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value.slice(0, -1);
-        break;
-      case 'Del':
-        document.querySelector('.keyboard-textarea').value = '';
-        break;
-      case 'Enter':
-        document.querySelector('.keyboard-textarea').value += '\n';
-        break;
-      case 'Tab':
-        document.querySelector('.keyboard-textarea').value += '\t';
-        break;
-      case '':
-        document.querySelector('.keyboard-textarea').value += ' ';
-        break;
-      default:
-        document.querySelector('.keyboard-textarea').value += event.target.innerText;
-    }
+    textareaText(event.target.innerText);
   }
 });
 
