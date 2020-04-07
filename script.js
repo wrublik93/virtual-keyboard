@@ -7,6 +7,9 @@ const wrapperSection = document.createElement('div');
 const title = document.createElement('h1');
 const keyboardTextarea = document.createElement('textarea');
 const keyboardContainer = document.createElement('div');
+const descriptionLanguage = document.createElement('div');
+const descriptionDelete = document.createElement('div');
+const contact = document.createElement('div');
 header.className = 'header';
 section.className = 'keyboard-section';
 wrapperHeader.className = 'wrapper';
@@ -14,6 +17,8 @@ wrapperSection.className = 'wrapper';
 title.className = 'title';
 keyboardTextarea.className = 'keyboard-textarea';
 keyboardContainer.className = 'virtual-keyboard';
+descriptionLanguage.className = 'description-language';
+contact.className = 'contact';
 body.append(header);
 header.append(wrapperHeader);
 wrapperHeader.append(title);
@@ -22,7 +27,13 @@ main.append(section);
 section.append(wrapperSection);
 wrapperSection.append(keyboardTextarea);
 wrapperSection.append(keyboardContainer);
+wrapperSection.append(descriptionLanguage);
+wrapperSection.append(descriptionDelete);
+wrapperSection.append(contact);
 title.innerText = 'Virtual Keyboard';
+descriptionLanguage.innerText = 'Press Сtrl + Alt to change language (OS - Windows)';
+contact.innerText = 'My contacts (if you have questions): @wrublik93 (Telegram)';
+descriptionDelete.innerText = 'Press Del to clear textarea';
 keyboardTextarea.disabled = true;
 
 const keyboardKeys = {
@@ -233,8 +244,10 @@ document.addEventListener('keydown', (event) => {
         document.querySelector('.keyboard-textarea').value += '';
         break;
       case '←':
-      case 'Del':
         document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value.slice(0, -1);
+        break;
+      case 'Del':
+        document.querySelector('.keyboard-textarea').value = '';
         break;
       case 'Enter': 
         document.querySelector('.keyboard-textarea').value += '\n';
@@ -289,8 +302,10 @@ virtualKeyboard.addEventListener('mousedown', (event) => {
         document.querySelector('.keyboard-textarea').value += '';
         break;
       case '←':
-      case 'Del':
         document.querySelector('.keyboard-textarea').value = document.querySelector('.keyboard-textarea').value.slice(0, -1);
+        break;
+      case 'Del':
+        document.querySelector('.keyboard-textarea').value = '';
         break;
       case 'Enter': 
         document.querySelector('.keyboard-textarea').value += '\n';
@@ -313,3 +328,34 @@ virtualKeyboard.addEventListener('mouseup', (event) => {
     target.classList.remove('transform-click');
   }
 })
+
+virtualKeyboard.addEventListener('mouseout', (event) => {
+  let target = event.target;
+  if(target.classList.contains('k-key')) {
+    target.classList.remove('transform-click');
+  }
+})
+
+virtualKeyboard.addEventListener('click', (event) => {
+  let target = event.target;
+  if(target.classList.contains('k-key')) {
+    console.log(target.attributes.data.value)
+    if(target.innerText === 'CapsLock' && localStorage.getItem('caps') === 'false') {
+      if(localStorage.getItem('lang') === 'ru') {
+        initKeyboard(codeKeys, capsKeysRu);
+      } else if (localStorage.getItem('lang') === 'en') {
+        initKeyboard(codeKeys, capsKeysEn);
+      }
+      localStorage.setItem('caps', 'true');
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+    } else if (target.innerText === 'CapsLock' && localStorage.getItem('caps') === 'true') {
+      if(localStorage.getItem('lang') === 'ru') {
+        initKeyboard(codeKeys, nameKeysRu);
+      } else if (localStorage.getItem('lang') === 'en') {
+        initKeyboard(codeKeys, nameKeysEn);
+      }
+      localStorage.setItem('caps', 'false');
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.remove('press-key');
+    }
+  }
+});
