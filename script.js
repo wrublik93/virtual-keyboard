@@ -339,7 +339,6 @@ virtualKeyboard.addEventListener('mouseout', (event) => {
 virtualKeyboard.addEventListener('click', (event) => {
   let target = event.target;
   if(target.classList.contains('k-key')) {
-    console.log(target.attributes.data.value)
     if(target.innerText === 'CapsLock' && localStorage.getItem('caps') === 'false') {
       if(localStorage.getItem('lang') === 'ru') {
         initKeyboard(codeKeys, capsKeysRu);
@@ -356,6 +355,22 @@ virtualKeyboard.addEventListener('click', (event) => {
       }
       localStorage.setItem('caps', 'false');
       document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.remove('press-key');
+    } else if(target.attributes.data.value === 'AltLeft' && localStorage.getItem('ctrl') === 'true') {
+      if(localStorage.getItem('lang') === 'ru' && localStorage.getItem('caps') === 'false') {
+        initKeyboard(codeKeys, nameKeysEn);
+        localStorage.setItem('lang', 'en')
+      } else if(localStorage.getItem('lang') === 'en' && localStorage.getItem('caps') === 'false') {
+        initKeyboard(codeKeys, nameKeysRu);
+        localStorage.setItem('lang', 'ru')
+      } else if(localStorage.getItem('lang') === 'ru' && localStorage.getItem('caps') === 'true') {
+        initKeyboard(codeKeys, capsKeysEn);
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+        localStorage.setItem('lang', 'en');
+      } else if(localStorage.getItem('lang') === 'en' && localStorage.getItem('caps') === 'true') {
+        initKeyboard(codeKeys, capsKeysRu);
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+        localStorage.setItem('lang', 'ru');
+      } 
     }
   }
 });
