@@ -66,7 +66,6 @@ const keyboardKeys = {
       'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
       '&#8679; Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '&#9650;', 'Shift &#8679;',
       'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
-    
   },
   en: {
     nameKeys: ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '&#8592;',
@@ -122,6 +121,7 @@ if(!localStorage.getItem('caps')) {
 };
 
 localStorage.setItem('ctrl', 'false');
+localStorage.setItem('shift', 'false');
 
 if(localStorage.getItem('lang') === 'ru') {
   if(localStorage.getItem('caps') === 'false') {
@@ -371,6 +371,46 @@ virtualKeyboard.addEventListener('click', (event) => {
         document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
         localStorage.setItem('lang', 'ru');
       } 
-    }
+    } else if(target.attributes.data.value === 'ShiftLeft' && localStorage.getItem('shift') === 'false') {
+      if(localStorage.getItem('lang') === 'ru' && localStorage.getItem('caps') === 'false') {
+        initKeyboard(codeKeys, shiftKeysRu);
+        document.querySelector('.virtual-keyboard .k-key[data="ShiftLeft"]').classList.add('press-key');
+        localStorage.setItem('shift', 'true');
+      } else if(localStorage.getItem('lang') === 'en' && localStorage.getItem('caps') === 'false') {
+        initKeyboard(codeKeys, shiftKeysEn);
+        document.querySelector('.virtual-keyboard .k-key[data="ShiftLeft"]').classList.add('press-key');
+        localStorage.setItem('shift', 'true');
+      } else if(localStorage.getItem('lang') === 'ru' && localStorage.getItem('caps') === 'true') {
+        initKeyboard(codeKeys, capsShiftKeysRu);
+        document.querySelector('.virtual-keyboard .k-key[data="ShiftLeft"]').classList.add('press-key');
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+        localStorage.setItem('shift', 'true');
+      } else if(localStorage.getItem('lang') === 'en' && localStorage.getItem('caps') === 'true') {
+        initKeyboard(codeKeys, capsShiftKeysEn);
+        document.querySelector('.virtual-keyboard .k-key[data="ShiftLeft"]').classList.add('press-key');
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+        localStorage.setItem('shift', 'true');
+      } 
+    } else if(target.attributes.data.value === 'ShiftLeft' && localStorage.getItem('shift') === 'true') {
+      if(localStorage.getItem('lang') === 'ru' && localStorage.getItem('caps') === 'false') {
+        initKeyboard(codeKeys, nameKeysRu);
+        document.querySelector('.virtual-keyboard .k-key[data="ShiftLeft"]').classList.remove('press-key');
+        localStorage.setItem('shift', 'false');
+      } else if(localStorage.getItem('lang') === 'en' && localStorage.getItem('caps') === 'false') {
+        initKeyboard(codeKeys, nameKeysEn);
+        document.querySelector('.virtual-keyboard .k-key[data="ShiftLeft"]').classList.remove('press-key');
+        localStorage.setItem('shift', 'false');
+      } else if(localStorage.getItem('lang') === 'ru' && localStorage.getItem('caps') === 'true') {
+        initKeyboard(codeKeys, capsKeysRu);
+        document.querySelector('.virtual-keyboard .k-key[data="ShiftLeft"]').classList.remove('press-key');
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+        localStorage.setItem('shift', 'false');
+      } else if(localStorage.getItem('lang') === 'en' && localStorage.getItem('caps') === 'true') {
+        initKeyboard(codeKeys, capsKeysEn);
+        document.querySelector('.virtual-keyboard .k-key[data="ShiftLeft"]').classList.remove('press-key');
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+        localStorage.setItem('shift', 'false');
+      }
+    } 
   }
 });
