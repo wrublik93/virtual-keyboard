@@ -144,34 +144,39 @@ const textareaText = (text) => {
   }
 };
 
-if (!localStorage.getItem('lang')) {
-  localStorage.setItem('lang', 'ru');
-}
-
-if (!localStorage.getItem('caps')) {
-  localStorage.setItem('caps', 'false');
-}
-
-localStorage.setItem('ctrl', 'false');
-localStorage.setItem('shift', 'false');
-
-if (localStorage.getItem('lang') === 'ru') {
-  if (localStorage.getItem('caps') === 'false') {
-    initKeyboard(codeKeys, nameKeysRu);
-  } else if (localStorage.getItem('caps') === 'true') {
-    initKeyboard(codeKeys, capsKeysRu);
-    document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+const initLocalStorage = () => {
+  if (!localStorage.getItem('lang')) {
+    localStorage.setItem('lang', 'ru');
   }
-}
 
-if (localStorage.getItem('lang') === 'en') {
-  if (localStorage.getItem('caps') === 'false') {
-    initKeyboard(codeKeys, nameKeysEn);
-  } else if (localStorage.getItem('caps') === 'true') {
-    initKeyboard(codeKeys, capsKeysEn);
-    document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+  if (!localStorage.getItem('caps')) {
+    localStorage.setItem('caps', 'false');
   }
-}
+
+  localStorage.setItem('ctrl', 'false');
+  localStorage.setItem('shift', 'false');
+
+  if (localStorage.getItem('lang') === 'ru') {
+    if (localStorage.getItem('caps') === 'false') {
+      initKeyboard(codeKeys, nameKeysRu);
+    } else if (localStorage.getItem('caps') === 'true') {
+      initKeyboard(codeKeys, capsKeysRu);
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+    }
+  }
+
+  if (localStorage.getItem('lang') === 'en') {
+    if (localStorage.getItem('caps') === 'false') {
+      initKeyboard(codeKeys, nameKeysEn);
+    } else if (localStorage.getItem('caps') === 'true') {
+      initKeyboard(codeKeys, capsKeysEn);
+      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
+    }
+  }
+};
+
+initLocalStorage();
+
 
 document.addEventListener('keydown', (event) => {
   if (codeKeys.includes(event.code)) {
