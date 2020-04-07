@@ -106,15 +106,15 @@ const capsKeysEn = keyboardKeys.en.capsKeys;
 const shiftKeysEn = keyboardKeys.en.shiftKeys;
 const capsShiftKeysEn = keyboardKeys.en.capsShiftKeys;
 
-function initKeyboard(code, nameKeys) {
-  let out = '';
+const initKeyboard = (code, nameKeys) => {
+  let output = '';
   code.forEach((item, index) => {
-    out += `<div class="k-key" data="${item}">${nameKeys[index]}</div>`;
+    output += `<div class="k-key" data="${item}">${nameKeys[index]}</div>`;
   });
-  document.querySelector('.virtual-keyboard').innerHTML = out;
-}
+  document.querySelector('.virtual-keyboard').innerHTML = output;
+};
 
-function textareaText(text) {
+const textareaText = (text) => {
   switch (text) {
     case 'CapsLock':
     case 'Alt':
@@ -142,7 +142,7 @@ function textareaText(text) {
     default:
       keyboardTextarea.value += text;
   }
-}
+};
 
 if (!localStorage.getItem('lang')) {
   localStorage.setItem('lang', 'ru');
