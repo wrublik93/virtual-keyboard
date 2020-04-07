@@ -31,9 +31,12 @@ wrapperSection.append(descriptionLanguage);
 wrapperSection.append(descriptionDelete);
 wrapperSection.append(contact);
 title.innerText = 'Virtual Keyboard';
-descriptionLanguage.innerText = 'Press Сtrl + Alt to change language (OS - Windows)';
-contact.innerText = 'My contacts (if you have questions): @wrublik93 (Telegram)';
-descriptionDelete.innerText = 'Press Del to clear textarea';
+descriptionLanguage.innerText = `Нажмите Ctrl + Alt для смены языка, если ввод осуществляется с помощью физической клавиатуры.
+Нажмите Ctrl + Alt для смены языка, где Alt - с помошью левой кнопки мыши.
+Нажмите и удерживайте Shift на физической клавиатуре, чтобы перейти в режим ввода символов Shift.
+Нажмите левой кнопкой мыши на Shift (left shift) для того, чтобы перейти в режим ввода символов Shift с помощью мыши. При успешной активации Shift подсвечивается.`;
+contact.innerText = 'Мои контакты (если возникнут вопросы): @wrublik93 (Telegram)';
+descriptionDelete.innerText = 'Нажмите Del для очистки окна ввода текста.';
 keyboardTextarea.disabled = true;
 
 const keyboardKeys = {
