@@ -199,6 +199,14 @@ const checkShiftKeyboard = () => {
   }
 };
 
+const checkCapsShiftKeyboard = () => {
+  if (localStorage.getItem('lang') === 'ru') {
+    initKeyboard(codeKeys, capsShiftKeysRu);
+  } else if (localStorage.getItem('lang') === 'en') {
+    initKeyboard(codeKeys, capsShiftKeysEn);
+  }
+};
+
 initLocalStorage();
 
 
@@ -239,13 +247,15 @@ document.addEventListener('keydown', (event) => {
         } */
         checkShiftKeyboard();
       } else if (localStorage.getItem('caps') === 'true') {
-        if (localStorage.getItem('lang') === 'ru') {
+        /* if (localStorage.getItem('lang') === 'ru') {
           initKeyboard(codeKeys, capsShiftKeysRu);
           document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
         } else if (localStorage.getItem('lang') === 'en') {
           initKeyboard(codeKeys, capsShiftKeysEn);
           document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
-        }
+        } */
+        checkCapsShiftKeyboard();
+        document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
       }
       document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('active');
       document.querySelector(`.virtual-keyboard .k-key[data="${event.code}"]`).classList.add('transform');
