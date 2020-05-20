@@ -1,101 +1,26 @@
-const main = document.createElement('main');
-const header = document.createElement('header');
-const section = document.createElement('section');
-const wrapperHeader = document.createElement('div');
-const wrapperSection = document.createElement('div');
-const title = document.createElement('h1');
-const keyboardTextarea = document.createElement('textarea');
-const keyboardContainer = document.createElement('div');
-const descriptionLanguage = document.createElement('div');
-const descriptionDelete = document.createElement('div');
-const contact = document.createElement('div');
-header.className = 'header';
-section.className = 'keyboard-section';
-wrapperHeader.className = 'wrapper';
-wrapperSection.className = 'wrapper';
-title.className = 'title';
-keyboardTextarea.className = 'keyboard-textarea';
-keyboardContainer.className = 'virtual-keyboard';
-descriptionLanguage.className = 'description-language';
-contact.className = 'contact';
-document.body.append(header);
-header.append(wrapperHeader);
-wrapperHeader.append(title);
-document.body.append(main);
-main.append(section);
-section.append(wrapperSection);
-wrapperSection.append(keyboardTextarea);
-wrapperSection.append(keyboardContainer);
-wrapperSection.append(descriptionLanguage);
-wrapperSection.append(descriptionDelete);
-wrapperSection.append(contact);
-title.innerText = 'Virtual Keyboard';
-descriptionLanguage.innerText = `Нажмите Ctrl + Alt для смены языка, если ввод осуществляется с помощью физической клавиатуры.
-Нажмите Ctrl + Alt для смены языка, где Alt - с помошью левой кнопки мыши.
-Нажмите и удерживайте Shift на физической клавиатуре, чтобы перейти в режим ввода символов Shift.
-Нажмите левой кнопкой мыши на Shift (left shift) для того, чтобы перейти в режим ввода символов Shift с помощью мыши. При успешной активации Shift подсвечивается.`;
-contact.innerText = 'Мои контакты (если возникнут вопросы): @wrublik93 (Telegram)';
-descriptionDelete.innerText = 'Нажмите Del для очистки окна ввода текста.';
-keyboardTextarea.disabled = true;
+/* eslint-disable import/extensions */
+import initDOM from './DOM/initDOM.js';
+import initLocalStorage from './localStorage/initLocalStorage.js';
+import mouseUpEvent from './mouseEvents/mouseUpEvent.js';
+import mouseDownEvent from './mouseEvents/mouseDownEvent.js';
+import mouseOutEvent from './mouseEvents/mouseOutEvent.js';
+import mouseClickEvent from './mouseEvents/mouseClickEvent.js';
 
-const keyboardKeys = {
-  codeKeys: ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace',
-    'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete',
-    'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter',
-    'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight',
-    'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'],
-  ru: {
-    nameKeys: ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '&#8592;',
-      'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del',
-      'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
-      '&#8679; Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '&#9650;', 'Shift &#8679;',
-      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
+// Init DOM
+initDOM();
 
-    capsKeys: ['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '&#8592;',
-      'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\', 'Del',
-      'CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter',
-      '&#8679; Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '&#9650;', 'Shift &#8679;',
-      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
+// Init local storage and init keyboard view
+const LANG = window.localStorage.getItem('lang');
+const CAPS = window.localStorage.getItem('caps');
+initLocalStorage(LANG, CAPS);
 
-    shiftKeys: ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', '&#8592;',
-      'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/', 'Del',
-      'CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter',
-      '&#8679; Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '&#9650;', 'Shift &#8679;',
-      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
+// Mouse events
+mouseUpEvent();
+mouseDownEvent();
+mouseOutEvent();
+mouseClickEvent();
 
-    capsShiftKeys: ['ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', '&#8592;',
-      'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del',
-      'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
-      '&#8679; Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '&#9650;', 'Shift &#8679;',
-      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
-  },
-  en: {
-    nameKeys: ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '&#8592;',
-      'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del',
-      'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter',
-      '&#8679; Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '&#9650;', 'Shift &#8679;',
-      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
-
-    capsKeys: ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '&#8592;',
-      'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'Del',
-      'CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'Enter',
-      '&#8679; Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '&#9650;', 'Shift &#8679;',
-      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
-
-    shiftKeys: ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '&#8592;',
-      'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', 'Del',
-      'CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter',
-      '&#8679; Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '&#9650;', 'Shift &#8679;',
-      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
-
-    capsShiftKeys: ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '&#8592;',
-      'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Del',
-      'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter',
-      '&#8679; Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', '&#9650;', 'Shift &#8679;',
-      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '&#9668;', '&#9660;', '&#9658;', 'Ctrl'],
-  },
-};
-
+/*
 const { codeKeys } = keyboardKeys;
 const nameKeysRu = keyboardKeys.ru.nameKeys;
 const capsKeysRu = keyboardKeys.ru.capsKeys;
@@ -105,14 +30,6 @@ const nameKeysEn = keyboardKeys.en.nameKeys;
 const capsKeysEn = keyboardKeys.en.capsKeys;
 const shiftKeysEn = keyboardKeys.en.shiftKeys;
 const capsShiftKeysEn = keyboardKeys.en.capsShiftKeys;
-
-const initKeyboard = (code, nameKeys) => {
-  let output = '';
-  code.forEach((item, index) => {
-    output += `<div class="k-key" data="${item}">${nameKeys[index]}</div>`;
-  });
-  document.querySelector('.virtual-keyboard').innerHTML = output;
-};
 
 const textareaText = (text) => {
   switch (text) {
@@ -144,36 +61,7 @@ const textareaText = (text) => {
   }
 };
 
-const initLocalStorage = () => {
-  if (!localStorage.getItem('lang')) {
-    localStorage.setItem('lang', 'ru');
-  }
 
-  if (!localStorage.getItem('caps')) {
-    localStorage.setItem('caps', 'false');
-  }
-
-  localStorage.setItem('ctrl', 'false');
-  localStorage.setItem('shift', 'false');
-
-  if (localStorage.getItem('lang') === 'ru') {
-    if (localStorage.getItem('caps') === 'false') {
-      initKeyboard(codeKeys, nameKeysRu);
-    } else if (localStorage.getItem('caps') === 'true') {
-      initKeyboard(codeKeys, capsKeysRu);
-      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
-    }
-  }
-
-  if (localStorage.getItem('lang') === 'en') {
-    if (localStorage.getItem('caps') === 'false') {
-      initKeyboard(codeKeys, nameKeysEn);
-    } else if (localStorage.getItem('caps') === 'true') {
-      initKeyboard(codeKeys, capsKeysEn);
-      document.querySelector('.virtual-keyboard .k-key[data="CapsLock"]').classList.add('press-key');
-    }
-  }
-};
 
 const checkLowerCaseKeyboard = () => {
   if (localStorage.getItem('lang') === 'ru') {
@@ -206,9 +94,6 @@ const checkCapsShiftKeyboard = () => {
     initKeyboard(codeKeys, capsShiftKeysEn);
   }
 };
-
-initLocalStorage();
-
 
 document.addEventListener('keydown', (event) => {
   if (codeKeys.includes(event.code)) {
@@ -307,27 +192,6 @@ document.addEventListener('keyup', (event) => {
 });
 
 const virtualKeyboard = document.querySelector('.virtual-keyboard');
-virtualKeyboard.addEventListener('mousedown', (event) => {
-  const { target } = event;
-  if (target.classList.contains('k-key')) {
-    target.classList.add('transform-click');
-    textareaText(event.target.innerText);
-  }
-});
-
-virtualKeyboard.addEventListener('mouseup', (event) => {
-  const { target } = event;
-  if (target.classList.contains('k-key')) {
-    target.classList.remove('transform-click');
-  }
-});
-
-virtualKeyboard.addEventListener('mouseout', (event) => {
-  const { target } = event;
-  if (target.classList.contains('k-key')) {
-    target.classList.remove('transform-click');
-  }
-});
 
 virtualKeyboard.addEventListener('click', (event) => {
   const { target } = event;
@@ -399,3 +263,4 @@ virtualKeyboard.addEventListener('click', (event) => {
     }
   }
 });
+ */
